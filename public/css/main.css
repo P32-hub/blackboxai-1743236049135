@@ -1,0 +1,55 @@
+:root {
+  --primary-color: #FF9900; /* Amazon orange */
+  --secondary-color: #146EB4; /* PayTM blue */
+  --dark-color: #232F3E;
+  --light-color: #F2F3F3;
+}
+
+body {
+  font-family: 'Amazon Ember', Arial, sans-serif;
+  background-color: var(--light-color);
+}
+
+.navbar {
+  background-color: var(--dark-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-paytm {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: white;
+}
+
+.voucher-card {
+  transition: transform 0.3s;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.voucher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.voucher-badge {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.payment-methods img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+footer {
+  background-color: var(--dark-color);
+  color: white;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
