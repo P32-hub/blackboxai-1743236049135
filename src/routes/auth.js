@@ -6,7 +6,7 @@ const User = require('../models/User');
 const { JWT_SECRET } = process.env;
 
 // Register new user
-router.post('/register', async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const { name, email, phone, password } = req.body;
 
@@ -48,10 +48,10 @@ router.post('/register', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Registration failed', details: error.message });
   }
-});
+};
 
 // User login
-router.post('/login', async (req, res) => {
+const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -88,10 +88,10 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Login failed', details: error.message });
   }
-});
+};
 
 // Get current user
-router.get('/me', async (req, res) => {
+const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
     if (!user) {
@@ -101,6 +101,10 @@ router.get('/me', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error fetching user', details: error.message });
   }
-});
+};
+
+router.post('/register', registerUser);
+router.post('/login', loginUser);
+router.get('/me', getCurrentUser);
 
 module.exports = router;
