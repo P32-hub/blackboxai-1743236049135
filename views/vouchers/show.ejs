@@ -1,0 +1,64 @@
+<%- include('../partials/header', { title: `Voucher ${voucher.code}` }) %>
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">₹<%= voucher.amount %> Amazon Voucher</h2>
+        </div>
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <p><strong>Voucher Code:</strong> <%= voucher.code %></p>
+              <p><strong>Status:</strong> <span class="badge bg-<%= voucher.status === 'available' ? 'success' : 'warning' %>"><%= voucher.status %></span></p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Expires:</strong> <%= new Date(voucher.expiryDate).toLocaleDateString() %></p>
+              <p><strong>Seller:</strong> <%= voucher.seller.name %></p>
+            </div>
+          </div>
+
+          <% if (voucher.status === 'available' && (!user || user._id.toString() !== voucher.seller._id.toString())) { %>
+            <div class="border-top pt-4">
+              <h4 class="mb-3">Purchase Voucher</h4>
+              <form action="/payment/initiate" method="POST">
+                <input type="hidden" name="voucherId" value="<%= voucher._id %>">
+                <div class="mb-3">
+                  <label class="form-label">Select Payment Method</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="paytm" value="paytm" checked>
+                    <label class="form-check-label" for="paytm">
+                      <img src="/images/paytm-logo.png" alt="PayTM" style="height: 20px;" class="ms-2">
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="amazonpay" value="amazonpay">
+                    <label class="form-check-label" for="amazonpay">
+                      <img src="/images/amazonpay-logo.png" alt="Amazon Pay" style="height: 20px;" class="ms-2">
+                    </label>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                  Buy Now for ₹<%= voucher.amount %>
+                </button>
+              </form>
+            </div>
+          <% } else if (user && user._id.toString() === voucher.seller._id.toString()) { %>
+            <div class="alert alert-info">
+              This is your listed voucher. You cannot purchase your own voucher.
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <a href="/vouchers" class="btn btn-outline-secondary">
+          <i class="fas fa-arrow-left me-1"></i> Back to Vouchers
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
